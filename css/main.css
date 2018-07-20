@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #241a38;
+  background: #ff0ada;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2660,15 +2660,6 @@ embed {
 .links-of-blogroll-inline .links-of-blogroll-item {
   display: inline-block;
 }
-@media screen and (min-width: 1200px) {
-  body {
-    background-image: url("https://github.com/quank123wip/Blog-PicDrop/tree/master/Pictures/201703081610285716673.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: 50% 50%;
-    background-size: cover;
-  }
-  #footer a {
-    color: #eee;
-  }
+body {
+  background: url("https://github.com/quank123wip/Blog-PicDrop/tree/master/Pictures/201703081610285716673.jpg");
 }

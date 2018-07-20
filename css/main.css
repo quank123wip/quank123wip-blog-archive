@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff0ada;
+  background: #ffff9f;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2661,5 +2661,5 @@ embed {
   display: inline-block;
 }
 body {
-  background: url("https://github.com/quank123wip/Blog-PicDrop/tree/master/Pictures/201703081610285716673.jpg");
+  background: url("/images/background.jpg");
 }

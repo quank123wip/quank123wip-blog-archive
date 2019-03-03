@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Luogu P3258 [JLOI2014]松鼠的新家"><meta name="keywords" content="LCA,倍增,树链剖分,树上差分"><meta name="author" content="Quank"><meta name="copyright" content="Quank"><title>Luogu P3258 [JLOI2014]松鼠的新家 | Quank123Wip's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#树上差分"><span class="toc-number">1.</span> <span class="toc-text">树上差分</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#树链剖分"><span class="toc-number">2.</span> <span class="toc-text">树链剖分</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://i.loli.net/2019/03/03/5c7b8b1a0a9e9.jpg"></div><div class="author-info__name text-center">Quank</div><div class="author-info__description text-center">Quank's Blog</div><div class="follow-button"><a href="https://github.com/quank123wip">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">3</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">8</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">3</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i.loli.net/2019/03/03/5c7b8d64139bc.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Quank123Wip's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">Luogu P3258 [JLOI2014]松鼠的新家</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-03</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/算法-基础树上问题/">算法-基础树上问题</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>对于这道题，题意已经有先辈分析过了，这里不多作赘述。</p>
+<p>写法主要有两种：</p>
+<ul>
+<li><p>求LCA（倍增）+树上差分</p>
+</li>
+<li><p>树链剖分挂线段树</p>
+</li>
+</ul>
+<p>对于这两种写法，树上差分算是技巧性的东西了，而树链剖分基本上是裸的算法</p>
+<p><del>当然，树剖是省选内容</del></p>
+<h1 id="树上差分"><a href="#树上差分" class="headerlink" title="树上差分"></a>树上差分</h1><p>首先介绍LCA+树上差分</p>
+<p>我们说在它树上运动走的肯定是最短路，于是过程就可以简化成</p>
+<p>起点-&gt;LCA-&gt;终点</p>
+<p>那么最朴素的思路肯定是把这条路径上的所有点权值+1</p>
+<p><del>但是会TLE</del></p>
+<p>那么如何优化呢？</p>
+<p>记得在写树状数组-2的时候，我们应用了一种叫差分的思路，通过O(1)的操作维护一段区间。</p>
+<p>那么我们可以仿照这个思路，把树看作若干根交叉在一起的链</p>
+<p>于是我们就可以大胆的把起点-&gt;LCA，终点-&gt;LCA看作两个区间，给区间左端点分别+1，右端点分别-1（LCA就-2）</p>
+<p>这里有一个遗留问题：为什么不能给终点-1，这个问题我希望读者自己思考。</p>
+<p><del>大家可以试试把菊花树拆成链来思考</del></p>
+<h1 id="树链剖分"><a href="#树链剖分" class="headerlink" title="树链剖分"></a>树链剖分</h1><p><del>这就很裸了嘛</del></p>
+<p>思路，按照树剖的思想将树拆分成若干条重链，在每个重链开头建立一棵线段树维护链上节点权值，求LCA的时候直接修改就好了嘛。</p>
+<p>为了详细我还是讲一下。</p>
+<p>一棵树有多个节点多条边，我们把它拆成几条重链。拆完之后，一个节点要么是重链开端要么是重链上的非起点节点，并且除了根节点，所有重链开端都会与一条重链相连（挂在重链上）</p>
+<p>那么我们求LCA的时候，分别从两个节点出发，往上跳到节点开头，维护值，如果不是LCA就跳到挂在的重链上重复上述过程就好啦。</p>
+<p><del>其实还是很好想的嘛</del></p>
+<p>代码之后会给</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Quank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://quank123wip.github.io/2019/03/03/Luogu-P3258-[JLOI2014]松鼠的新家/">http://quank123wip.github.io/2019/03/03/Luogu-P3258-[JLOI2014]松鼠的新家/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://quank123wip.github.io">Quank123Wip's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LCA/">LCA</a><a class="post-meta__tags" href="/tags/倍增/">倍增</a><a class="post-meta__tags" href="/tags/树链剖分/">树链剖分</a><a class="post-meta__tags" href="/tags/树上差分/">树上差分</a></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2019/03/03/intro-arch-for-oi/"><i class="fa fa-chevron-left">  </i><span>ArchLinux入门指南For OIer</span></a></div><div class="next-post pull-right"><a href="/2018/07/20/Luogu-P1379-八数码难题/"><span>Luogu P1379 八数码难题</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '735c15583c0960efb87b',
+  clientSecret: '81542dcd072f8fd5110eb8fa9a03e6b0f9d87ca0',
+  repo: 'https://github.com/quank123wip/quank123wip.github.io',
+  owner: 'quank123wip',
+  admin: 'quank123wip',
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN'
+})
+gitalk.render('gitalk-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://i.loli.net/2019/03/03/5c7b8d64139bc.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2019 By Quank</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
